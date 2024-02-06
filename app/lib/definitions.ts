@@ -86,3 +86,16 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type Meta = {
+  count: number;
+  db_response_time_ms: number;
+  page: number;
+  per_page: number;
+};
+
+export type GroupBy = {
+  key: string;
+  key_display_name: string;
+  count: number;
+}

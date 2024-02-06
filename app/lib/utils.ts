@@ -67,3 +67,58 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const formatCompactNumber = (count: number) => {
+  return Intl.NumberFormat("en", { notation: "compact" }).format(count);
+}
+
+export const extractIdentifier = (identifier: string, url: string): string => {
+  switch (identifier) {
+    case 'openalex':
+      return url.replace('https://openalex.org/', '');
+    case 'doi':
+      return url.replace('https://doi.org/', '');
+    case 'mag':
+      return url;
+    case 'pmid':
+      return url.replace('https://pubmed.ncbi.nlm.nih.gov/', '');
+    case 'pmcid':
+      return url.replace('https://www.ncbi.nlm.nih.gov/pmc/articles/', '');
+    default:
+      return url;
+  }
+};
+
+export const capitalize = (word: string) => word[0].toUpperCase() + word.slice(1);
+
+export enum WorkFilters {
+  OASTATUS = 'oa_status',
+  DOCTYPE = 'type',
+  JOURNAL = 'journal',
+  INSTITUTION = 'institutions.id',
+  FUNDER = 'grants.funder'
+}
+
+export enum OA_STATUS {
+  CLOSED = 'closed',
+  BRONZE = 'bronze',
+  GOLD = 'gold',
+  GREEN = 'green',
+  HYBRID = 'hybrid'
+}
+
+export const OA_STATUS_COLOURS: { [key: string]: string } = {
+  'closed': 'b9b9b9',
+  'bronze': 'd48751',
+  'gold': 'fbdc69',
+  'green': '6ba6ae',
+  'hybrid': 'ffa659'
+}
+
+export const OA_STATUS_TOOLTIPS: { [key: string]: string } = {
+  'closed': 'Closed Access publications require payment or a subscription for full access. Readers may encounter paywalls, limiting access to the content. Access is often granted to individuals or institutions with subscriptions, restricting widespread availability to the general public.',
+  'bronze': 'Bronze Open Access refers to free access to scholarly articles without formal peer review. While this model allows rapid dissemination of research findings, it may lack the rigorous peer-review process associated with other Open Access models.',
+  'gold': 'Gold Open Access publications are freely accessible to the public immediately upon publication. Authors typically pay a publication fee to make their work openly available, fostering widespread dissemination and accessibility.',
+  'green': 'Green Open Access allows authors to deposit a version of their manuscript in a repository, such as an institutional repository or a subject-specific archive. This provides free access to the public, usually after an embargo period set by the publisher.',
+  'hybrid': 'Hybrid Open Access combines elements of traditional subscription-based publishing with Open Access. In this model, authors can choose to make their individual articles freely accessible by paying an additional fee, while the rest of the journal content remains behind a paywall.',
+}
