@@ -14,8 +14,10 @@ export default function AuthorsSection({
     authorships.length > limit ? authorships.slice(0, limit) : authorships;
 
   return (
-    <div className="flex flex-col flex-wrap items-center md:flex-row md:gap-2">
-      <span className="font-semibold">Authors:</span>
+    <div className="flex flex-row flex-wrap items-center gap-2">
+      <span className="text-xs font-semibold underline md:text-sm">
+        Authors:
+      </span>
       {authors.map((item, index) => (
         <AuthorCard key={index} author={item} />
       ))}

@@ -17,12 +17,12 @@ export default function CitationsSection({
   referenced_works_count: number;
 }) {
   return (
-    <div className="flex flex-col items-center md:flex-row md:gap-2">
-      <Button variant={'secondary'}>
+    <div className="flex flex-row items-center gap-2">
+      <Button variant={'secondary'} className="hidden">
         <Image
           src={`/quote.svg`}
-          height={16}
-          width={16}
+          height={12}
+          width={12}
           alt={'citations icon'}
           className="mr-2"
         />
@@ -32,18 +32,20 @@ export default function CitationsSection({
         <Tooltip>
           <TooltipTrigger>
             <div className="flex items-center space-x-2">
-              <div className="rounded-lg bg-blue-400 p-2">
+              <div className="rounded-lg bg-blue-400 p-1 md:p-2">
                 <Image
                   src={`/quote.svg`}
-                  height={16}
-                  width={16}
+                  height={12}
+                  width={12}
                   alt={'citations icon'}
                 />
               </div>
-              <span className="text-black-500 text-sm font-semibold">
+              <span className="text-black-500 text-xs font-semibold md:text-sm">
                 {formatCompactNumber(cited_by_count)}
               </span>
-              <span className="text-sm text-gray-500">Citations</span>
+              <span className="text-xs text-gray-500 md:text-sm">
+                Citations
+              </span>
             </div>
           </TooltipTrigger>
           <TooltipContent>
@@ -56,19 +58,21 @@ export default function CitationsSection({
         <Tooltip>
           <TooltipTrigger>
             <div className="flex items-center space-x-2">
-              <div className="rounded-lg bg-blue-400 p-2">
+              <div className="rounded-lg bg-blue-400 p-1 md:p-2">
                 <Image
                   src={`/asterisk.svg`}
-                  height={16}
-                  width={16}
+                  height={12}
+                  width={12}
                   alt={'citations icon'}
                   className="text-white"
                 />
               </div>
-              <span className="text-black-500 text-sm font-semibold">
+              <span className="text-black-500 text-xs font-semibold md:text-sm">
                 {formatCompactNumber(referenced_works_count)}
               </span>
-              <span className="text-sm text-gray-500">References</span>
+              <span className="text-xs text-gray-500 md:text-sm">
+                References
+              </span>
             </div>
           </TooltipTrigger>
           <TooltipContent>

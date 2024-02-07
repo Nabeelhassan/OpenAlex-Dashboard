@@ -14,18 +14,26 @@ export default function RecordCard({ record }: { record: Work }) {
         open_access={record.open_access}
         title={record.title}
       />
-      <MetaDataSection
-        primary_location={record.primary_location}
-        biblio={record.biblio}
-        publication_date={record.publication_date}
-        type={record.type}
-      />
-      <AuthorsSection authorships={record.authorships} limit={8} />
-      <IdentifiersSection identifiers={record.ids} iconSize={12} />
-      <CitationsSection
-        cited_by_count={record.cited_by_count}
-        referenced_works_count={record.referenced_works_count}
-      />
+      <div className="py-1">
+        <MetaDataSection
+          primary_location={record.primary_location}
+          biblio={record.biblio}
+          publication_date={record.publication_date}
+          type={record.type}
+        />
+      </div>
+      <div className="py-1">
+        <AuthorsSection authorships={record.authorships} limit={8} />
+      </div>
+      <div className="py-1">
+        <IdentifiersSection identifiers={record.ids} iconSize={12} />
+      </div>
+      <div className="py-1">
+        <CitationsSection
+          cited_by_count={record.cited_by_count}
+          referenced_works_count={record.referenced_works_count}
+        />
+      </div>
     </>
   );
 }

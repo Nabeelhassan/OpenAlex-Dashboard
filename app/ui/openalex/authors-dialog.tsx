@@ -26,15 +26,15 @@ export function AuthorsDialog({ authors }: { authors: Authorship[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="link" size={'sm'}>
+        <Button variant="destructive" size={'sm'}>
           Show More
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Institutions</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            The Affiliations information of Authors available in openalex.
           </DialogDescription>
         </DialogHeader>
         <div className="flex">

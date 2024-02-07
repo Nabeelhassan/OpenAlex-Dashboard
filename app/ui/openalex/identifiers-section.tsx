@@ -24,8 +24,10 @@ export default function IdentifiersSection({
 
   return (
     /* identifiers */
-    <div className="flex flex-col items-center md:flex-row md:gap-2">
-      <span className="font-semibold">Identifiers:</span>
+    <div className="flex flex-col items-start md:flex-row md:items-center md:gap-2">
+      <span className="text-xs font-semibold underline md:text-sm">
+        Identifiers:
+      </span>
 
       {sources.map((source, index) => (
         <Link
@@ -40,7 +42,7 @@ export default function IdentifiersSection({
             height={iconSize}
             alt={`${source.source} logo`}
           />
-          <span className="text-center text-sm">{source.id}</span>
+          <span className="text-center text-xs md:text-sm">{source.id}</span>
         </Link>
       ))}
     </div>

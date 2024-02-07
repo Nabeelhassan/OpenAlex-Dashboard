@@ -21,13 +21,13 @@ export default function TitleSection({
   id: string;
 }) {
   return (
-    <div className="flex gap-2 py-2">
+    <div className="flex items-center gap-2 py-2">
       <Link
         href={`/openalex/works/${id.replace('https://openalex.org/', '')}`}
         title={title}
       >
         <h1
-          className={`${roboto_slab.className} line-clamp-1 text-sm font-bold md:text-2xl`}
+          className={`${roboto_slab.className} text-md line-clamp-1 font-bold md:text-2xl`}
         >
           {title}
         </h1>
@@ -37,7 +37,7 @@ export default function TitleSection({
           <HoverCardTrigger>
             {' '}
             <Badge
-              className="pointer-events-none"
+              className="pointer-events-none text-black"
               style={{
                 backgroundColor: `#${OA_STATUS_COLOURS[open_access.oa_status]}`,
               }}

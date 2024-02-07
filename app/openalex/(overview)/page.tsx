@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import Search from '@/app/ui/search';
 import { nunito_sans } from '@/app/ui/fonts';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { RecordListSkeleton } from '@/app/ui/skeletons';
 
 import RecordsList from '@/app/ui/openalex/records-list';
 import SideNav from '@/app/ui/openalex/side-nav';
@@ -30,7 +30,9 @@ export default async function Page({
 
   return (
     <div className="flex gap-2">
-      <SideNav searchParams={searchParams} />
+      {/* <Suspense key={filterOA + filterType + filterJournal + filterInstitution + filterFunder}>
+        <SideNav searchParams={searchParams} />
+      </Suspense> */}
       <div className="w-full">
         <div className="flex w-full items-center justify-between">
           <h1 className={`${nunito_sans.className} text-4xl font-bold`}>
@@ -50,7 +52,7 @@ export default async function Page({
             filterInstitution +
             filterFunder
           }
-          fallback={<InvoicesTableSkeleton />}
+          fallback={<RecordListSkeleton />}
         >
           <RecordsList
             query={query}
