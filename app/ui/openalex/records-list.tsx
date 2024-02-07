@@ -65,7 +65,7 @@ export default async function RecordsList({
                     },
                   )}
                 >
-                  <div className="flex grow items-center">
+                  <div className="flex grow">
                     <div className="min-w-0">
                       <RecordCard record={result} />
                     </div>

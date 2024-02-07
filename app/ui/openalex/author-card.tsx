@@ -19,22 +19,13 @@ export function AuthorCard({ author }: { author: Authorship }) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <Button
-          variant="link"
-          size={'sm'}
-          className={cn('m-0 h-6 p-0 text-xs md:text-sm', {
+        <button
+          className={cn('mr-2 text-center text-xs md:text-sm', {
             'text-[#A6CE39]': author.author.orcid,
           })}
         >
           {author.raw_author_name}
-        </Button>
-        {/* <span
-          className={cn('text-center text-xs md:text-sm', {
-            'text-[#A6CE39]': author.author.orcid,
-          })}
-        >
-          {author.raw_author_name}
-        </span> */}
+        </button>
       </HoverCardTrigger>
       <HoverCardContent className="w-160">
         <CardContent author={author}></CardContent>

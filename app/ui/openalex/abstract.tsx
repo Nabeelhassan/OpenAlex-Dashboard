@@ -12,7 +12,7 @@ export default function Abstract({
     <div className="flex w-full flex-col md:col-span-6">
       <h2 className={`m-2 text-xl md:text-2xl`}>Abstract</h2>
       <div className="flex flex-col rounded-xl bg-gray-50 p-2">
-        <div className="bg-white p-4 text-sm">{text.join(' ')}</div>
+        <div className="bg-white p-4 text-xs md:text-sm">{text.join(' ')}</div>
       </div>
     </div>
   );

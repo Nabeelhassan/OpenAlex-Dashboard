@@ -26,7 +26,7 @@ export function AuthorsDialog({ authors }: { authors: Authorship[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" size={'sm'}>
+        <Button variant="default" size={'sm'}>
           Show More
         </Button>
       </DialogTrigger>
