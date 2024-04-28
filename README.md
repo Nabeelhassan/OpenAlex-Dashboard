@@ -1,5 +1,12 @@
-## Next.js App Router Course - Starter
+# OpenAlex Dashboard
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+## Introduction
+This was a dashboard created to explore the dataset of OpenAlex. OpenAlex is a free and open catalog of the global research system. It's named after the ancient Library of Alexandria and made by the nonprofit OurResearch.
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+## Technology Stack
+
+Front-End Framework: [NextJS](https://nextjs.org/)
+UI Framework: [shadcn/ui](https://ui.shadcn.com/)
+CSS Framework: [Tailwindcss](https://tailwindcss.com/)
+
+Website Hosting: [vercel](https://vercel.com/)
