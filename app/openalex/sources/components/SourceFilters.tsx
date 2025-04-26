@@ -19,29 +19,29 @@ export default function SourceFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const [type, setType] = useState(searchParams.get('type') || '');
+  const [type, setType] = useState(searchParams.get('type') || 'any');
   const [isOA, setIsOA] = useState(searchParams.get('is_oa') === 'true');
   const [isInDOAJ, setIsInDOAJ] = useState(searchParams.get('is_in_doaj') === 'true');
-  const [country, setCountry] = useState(searchParams.get('country_code') || '');
+  const [country, setCountry] = useState(searchParams.get('country_code') || 'any');
   const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'works_count:desc');
   
   const applyFilters = () => {
     const params = new URLSearchParams();
     
-    if (type) params.set('type', type);
+    if (type && type !== 'any') params.set('type', type);
     if (isOA) params.set('is_oa', 'true');
     if (isInDOAJ) params.set('is_in_doaj', 'true');
-    if (country) params.set('country_code', country);
+    if (country && country !== 'any') params.set('country_code', country);
     params.set('sort', sortBy);
     
     router.push(`/openalex/sources?${params.toString()}`);
   };
   
   const resetFilters = () => {
-    setType('');
+    setType('any');
     setIsOA(false);
     setIsInDOAJ(false);
-    setCountry('');
+    setCountry('any');
     setSortBy('works_count:desc');
     router.push('/openalex/sources');
   };
@@ -63,7 +63,7 @@ export default function SourceFilters() {
                 <SelectValue placeholder="Any type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Any type</SelectItem>
+                <SelectItem value="any">Any type</SelectItem>
                 <SelectItem value="journal">Journal</SelectItem>
                 <SelectItem value="repository">Repository</SelectItem>
                 <SelectItem value="conference">Conference</SelectItem>
@@ -83,7 +83,7 @@ export default function SourceFilters() {
                 <SelectValue placeholder="Any country" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Any country</SelectItem>
+                <SelectItem value="any">Any country</SelectItem>
                 <SelectItem value="US">United States</SelectItem>
                 <SelectItem value="GB">United Kingdom</SelectItem>
                 <SelectItem value="DE">Germany</SelectItem>

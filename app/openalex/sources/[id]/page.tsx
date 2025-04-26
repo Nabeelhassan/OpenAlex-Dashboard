@@ -1,5 +1,3 @@
-'use client';
-
 import { Suspense } from 'react';
 import { ArrowLeftIcon, ArrowTopRightOnSquareIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -7,10 +5,37 @@ import { lusitana } from '@/app/ui/fonts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { notFound } from 'next/navigation';
 
-export default function SourceDetail({ params }: { params: { id: string } }) {
-  // In a real implementation, fetch the source data using the id
+import { getSource, getSourceWorks } from '@/app/lib/openalex/sources';
+import SourceMetrics from '../components/SourceMetrics';
+import SourceConcepts from '../components/SourceConcepts';
+import SourceWorks from '../components/SourceWorks';
+
+export default async function SourceDetail({ params }: { params: { id: string } }) {
   const sourceId = params.id;
+  const source = await getSource(sourceId);
+  
+  if (!source) {
+    notFound();
+  }
+  
+  // Fetch works for this source
+  const works = await getSourceWorks(sourceId, 5);
+  
+  // Format and prepare data
+  const formattedWorks = works.map(work => ({
+    id: work.id,
+    display_name: work.display_name,
+    publication_year: work.publication_year,
+    cited_by_count: work.cited_by_count,
+    open_access: work.open_access?.is_oa || false,
+    authors: work.authorships?.map(authorship => ({
+      id: authorship.author.id,
+      display_name: authorship.author.display_name,
+      orcid: authorship.author.orcid
+    })) || []
+  }));
   
   return (
     <main className="flex-1 p-6 md:p-10">
@@ -22,18 +47,18 @@ export default function SourceDetail({ params }: { params: { id: string } }) {
         <span>Back to Sources</span>
       </Link>
       
-      <Suspense fallback={<SourceHeaderSkeleton />}>
-        <SourceHeader 
-          id={sourceId}
-          display_name="PeerJ"
-          type="journal"
-          is_oa={true}
-          homepage_url="http://www.peerj.com/"
-          issn={["2167-8359"]}
-          works_count={20184}
-          cited_by_count={133702}
-        />
-      </Suspense>
+      <SourceHeader 
+        id={source.id}
+        display_name={source.display_name}
+        type={source.type}
+        is_oa={source.is_oa}
+        homepage_url={source.homepage_url}
+        issn={source.issn || []}
+        works_count={source.works_count}
+        cited_by_count={source.cited_by_count}
+        host_organization_name={source.host_organization_name}
+        country_code={source.country_code}
+      />
       
       <Tabs defaultValue="overview" className="mt-8">
         <TabsList className="mb-4">
@@ -53,31 +78,39 @@ export default function SourceDetail({ params }: { params: { id: string } }) {
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
                   <div>
                     <dt className="text-sm font-medium text-gray-500">Type</dt>
-                    <dd className="mt-1 text-sm text-gray-900">Journal</dd>
+                    <dd className="mt-1 text-sm text-gray-900">{source.type}</dd>
                   </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Publisher</dt>
-                    <dd className="mt-1 text-sm text-gray-900">PeerJ Inc.</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">ISSN</dt>
-                    <dd className="mt-1 text-sm text-gray-900">2167-8359</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Country</dt>
-                    <dd className="mt-1 text-sm text-gray-900">United States (US)</dd>
-                  </div>
+                  {source.host_organization_name && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Publisher</dt>
+                      <dd className="mt-1 text-sm text-gray-900">{source.host_organization_name}</dd>
+                    </div>
+                  )}
+                  {source.issn_l && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">ISSN-L</dt>
+                      <dd className="mt-1 text-sm text-gray-900">{source.issn_l}</dd>
+                    </div>
+                  )}
+                  {source.country_code && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Country</dt>
+                      <dd className="mt-1 text-sm text-gray-900">
+                        {getCountryName(source.country_code)} ({source.country_code})
+                      </dd>
+                    </div>
+                  )}
                   <div>
                     <dt className="text-sm font-medium text-gray-500">Access</dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                        Open Access
+                      <Badge variant="outline" className={source.is_oa ? "bg-green-50 text-green-700 border-green-200" : "bg-gray-50 text-gray-700 border-gray-200"}>
+                        {source.is_oa ? 'Open Access' : 'Closed Access'}
                       </Badge>
                     </dd>
                   </div>
                   <div>
                     <dt className="text-sm font-medium text-gray-500">In DOAJ</dt>
-                    <dd className="mt-1 text-sm text-gray-900">Yes</dd>
+                    <dd className="mt-1 text-sm text-gray-900">{source.is_in_doaj ? 'Yes' : 'No'}</dd>
                   </div>
                 </dl>
               </CardContent>
@@ -91,20 +124,32 @@ export default function SourceDetail({ params }: { params: { id: string } }) {
                 <dl className="space-y-4">
                   <div>
                     <dt className="text-sm font-medium text-gray-500">Publications</dt>
-                    <dd className="mt-1 text-2xl font-semibold text-gray-900">20,184</dd>
+                    <dd className="mt-1 text-2xl font-semibold text-gray-900">
+                      {source.works_count.toLocaleString()}
+                    </dd>
                   </div>
                   <div>
                     <dt className="text-sm font-medium text-gray-500">Citations</dt>
-                    <dd className="mt-1 text-2xl font-semibold text-gray-900">133,702</dd>
+                    <dd className="mt-1 text-2xl font-semibold text-gray-900">
+                      {source.cited_by_count.toLocaleString()}
+                    </dd>
                   </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">h-index</dt>
-                    <dd className="mt-1 text-2xl font-semibold text-gray-900">105</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">i10-index</dt>
-                    <dd className="mt-1 text-2xl font-semibold text-gray-900">5,045</dd>
-                  </div>
+                  {source.summary_stats?.h_index && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">h-index</dt>
+                      <dd className="mt-1 text-2xl font-semibold text-gray-900">
+                        {source.summary_stats.h_index}
+                      </dd>
+                    </div>
+                  )}
+                  {source.summary_stats?.i10_index && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">i10-index</dt>
+                      <dd className="mt-1 text-2xl font-semibold text-gray-900">
+                        {source.summary_stats.i10_index.toLocaleString()}
+                      </dd>
+                    </div>
+                  )}
                 </dl>
               </CardContent>
             </Card>
@@ -112,143 +157,36 @@ export default function SourceDetail({ params }: { params: { id: string } }) {
         </TabsContent>
         
         <TabsContent value="metrics">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Publication Trends</CardTitle>
-                <CardDescription>Publications per year</CardDescription>
-              </CardHeader>
-              <CardContent className="h-80">
-                {/* Publication trend chart would go here */}
-                <div className="flex items-center justify-center h-full bg-gray-50 border border-dashed border-gray-300 rounded-md">
-                  <p className="text-gray-500">Publications Trend Chart</p>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Citation Trends</CardTitle>
-                <CardDescription>Citations per year</CardDescription>
-              </CardHeader>
-              <CardContent className="h-80">
-                {/* Citation trend chart would go here */}
-                <div className="flex items-center justify-center h-full bg-gray-50 border border-dashed border-gray-300 rounded-md">
-                  <p className="text-gray-500">Citations Trend Chart</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <Suspense fallback={<div>Loading metrics...</div>}>
+            <SourceMetrics 
+              counts_by_year={source.counts_by_year || []}
+              h_index={source.summary_stats?.h_index || 0}
+              i10_index={source.summary_stats?.i10_index || 0}
+              two_year_mean_citedness={source.summary_stats?.two_year_mean_citedness || 0}
+            />
+          </Suspense>
         </TabsContent>
         
         <TabsContent value="works">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Publications</CardTitle>
-              <CardDescription>Recently published works in this source</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {/* This would be a list of works from the API */}
-                <div className="p-4 border rounded-md hover:bg-gray-50">
-                  <h3 className="font-medium text-blue-600 hover:underline">
-                    <Link href="/openalex/works/W2901957504">
-                      Large Language Models Encode Clinical Knowledge
-                    </Link>
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    <span className="font-medium">Authors:</span> Singhal K, Azizi A, Tu T, et al.
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">2023 • 1,245 citations</p>
-                </div>
-                
-                <div className="p-4 border rounded-md hover:bg-gray-50">
-                  <h3 className="font-medium text-blue-600 hover:underline">
-                    <Link href="/openalex/works/W3128292260">
-                      Generative Agents: Interactive Simulacra of Human Behavior
-                    </Link>
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    <span className="font-medium">Authors:</span> Park J, O'Brien J, Cai C, et al.
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">2023 • 987 citations</p>
-                </div>
-                
-                <div className="p-4 border rounded-md hover:bg-gray-50">
-                  <h3 className="font-medium text-blue-600 hover:underline">
-                    <Link href="/openalex/works/W2772766867">
-                      Hierarchical Convolutional Neural Networks for EEG-Based Emotion Recognition
-                    </Link>
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    <span className="font-medium">Authors:</span> Yang Y, Wu Q, Fu Y, et al.
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">2017 • 854 citations</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <Suspense fallback={<div>Loading works...</div>}>
+            <SourceWorks 
+              works={formattedWorks}
+              source_id={sourceId}
+            />
+          </Suspense>
         </TabsContent>
         
         <TabsContent value="concepts">
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Concepts</CardTitle>
-              <CardDescription>Main research areas covered by this source</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="h-80">
-                  {/* Concepts chart would go here */}
-                  <div className="flex items-center justify-center h-full bg-gray-50 border border-dashed border-gray-300 rounded-md">
-                    <p className="text-gray-500">Concepts Distribution Chart</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Biology</span>
-                    <span className="text-sm text-gray-500">86.7%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '86.7%' }}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Chemistry</span>
-                    <span className="text-sm text-gray-500">51.4%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '51.4%' }}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Medicine</span>
-                    <span className="text-sm text-gray-500">42.8%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '42.8%' }}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Computer Science</span>
-                    <span className="text-sm text-gray-500">27.3%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '27.3%' }}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Physics</span>
-                    <span className="text-sm text-gray-500">18.9%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '18.9%' }}></div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <Suspense fallback={<div>Loading concepts...</div>}>
+            <SourceConcepts 
+              concepts={(source.x_concepts || []).map(concept => ({
+                id: concept.id,
+                display_name: concept.display_name,
+                level: concept.level,
+                score: concept.score
+              }))}
+            />
+          </Suspense>
         </TabsContent>
       </Tabs>
     </main>
@@ -264,15 +202,19 @@ function SourceHeader({
   issn,
   works_count,
   cited_by_count,
+  host_organization_name,
+  country_code,
 }: {
   id: string;
   display_name: string;
   type: string;
   is_oa: boolean;
-  homepage_url: string;
+  homepage_url?: string;
   issn: string[];
   works_count: number;
   cited_by_count: number;
+  host_organization_name?: string;
+  country_code?: string;
 }) {
   return (
     <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
@@ -294,6 +236,12 @@ function SourceHeader({
               <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                 Open Access
               </Badge>
+            )}
+            
+            {host_organization_name && (
+              <span className="text-sm text-gray-500">
+                Publisher: {host_organization_name}
+              </span>
             )}
             
             {issn && issn.length > 0 && (
@@ -346,38 +294,27 @@ function SourceHeader({
   );
 }
 
-function SourceHeaderSkeleton() {
-  return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm animate-pulse">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <div className="h-8 w-64 bg-gray-200 rounded mb-2"></div>
-          <div className="flex gap-2">
-            <div className="h-6 w-20 bg-gray-200 rounded"></div>
-            <div className="h-6 w-28 bg-gray-200 rounded"></div>
-          </div>
-        </div>
-        <div className="h-6 w-28 bg-gray-200 rounded"></div>
-      </div>
-      
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="h-4 w-24 bg-gray-200 rounded mb-2"></div>
-          <div className="h-6 w-16 bg-gray-200 rounded"></div>
-        </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="h-4 w-20 bg-gray-200 rounded mb-2"></div>
-          <div className="h-6 w-16 bg-gray-200 rounded"></div>
-        </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="h-4 w-36 bg-gray-200 rounded mb-2"></div>
-          <div className="h-6 w-12 bg-gray-200 rounded"></div>
-        </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="h-4 w-28 bg-gray-200 rounded mb-2"></div>
-          <div className="h-4 w-32 bg-gray-200 rounded"></div>
-        </div>
-      </div>
-    </div>
-  );
+// Helper function to get country name from country code
+function getCountryName(code: string): string {
+  const countries: Record<string, string> = {
+    'US': 'United States',
+    'GB': 'United Kingdom',
+    'DE': 'Germany',
+    'CN': 'China',
+    'JP': 'Japan',
+    'FR': 'France',
+    'CA': 'Canada',
+    'IT': 'Italy',
+    'ES': 'Spain',
+    'NL': 'Netherlands',
+    'AU': 'Australia',
+    'CH': 'Switzerland',
+    'SE': 'Sweden',
+    'KR': 'South Korea',
+    'BR': 'Brazil',
+    'IN': 'India',
+    'RU': 'Russia'
+  };
+  
+  return countries[code] || code;
 } 

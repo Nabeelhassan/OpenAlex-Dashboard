@@ -20,8 +20,8 @@ export default function InstitutionsPage() {
   const [institutions, setInstitutions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [country, setCountry] = useState('');
-  const [type, setType] = useState('');
+  const [country, setCountry] = useState('any');
+  const [type, setType] = useState('any');
   const [sortBy, setSortBy] = useState('works_count:desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -128,7 +128,7 @@ export default function InstitutionsPage() {
                   <SelectValue placeholder="Any country" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any country</SelectItem>
+                  <SelectItem value="any">Any country</SelectItem>
                   <SelectItem value="US">United States</SelectItem>
                   <SelectItem value="GB">United Kingdom</SelectItem>
                   <SelectItem value="CN">China</SelectItem>
@@ -150,7 +150,7 @@ export default function InstitutionsPage() {
                   <SelectValue placeholder="Any type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any type</SelectItem>
+                  <SelectItem value="any">Any type</SelectItem>
                   <SelectItem value="education">Education</SelectItem>
                   <SelectItem value="healthcare">Healthcare</SelectItem>
                   <SelectItem value="company">Company</SelectItem>
