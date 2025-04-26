@@ -23,9 +23,14 @@ export default function SourceCard({
   publisher,
   country_code,
 }: SourceCardProps) {
+  // Extract the ID part from the full ID string
+  // - "https:/openalex.org/S2764455111"
+  
+  const sourceId = id.split('/').pop()
+  
   return (
     <Link
-      href={`/openalex/sources/${id}`}
+      href={`/openalex/sources/${sourceId}`}
       className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:border-blue-300 hover:shadow-md transition duration-200"
     >
       <div className="flex justify-between items-start mb-3">
