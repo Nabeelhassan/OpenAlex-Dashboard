@@ -22,7 +22,7 @@ export default function AuthorsPage() {
   const [authors, setAuthors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [field, setField] = useState('');
+  const [field, setField] = useState('any');
   const [sortBy, setSortBy] = useState('works_count:desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -53,7 +53,7 @@ export default function AuthorsPage() {
     
     try {
       const filters: Record<string, string> = {};
-      if (field) filters['concepts.id'] = field;
+      if (field && field !== 'any') filters['concepts.id'] = field;
       
       const data = await searchAuthors(searchQuery, filters, sortBy, 1);
       setAuthors(data.results || []);
@@ -73,7 +73,7 @@ export default function AuthorsPage() {
     
     try {
       const filters: Record<string, string> = {};
-      if (field) filters['concepts.id'] = field;
+      if (field && field !== 'any') filters['concepts.id'] = field;
       
       const data = isSearching
         ? await searchAuthors(searchQuery, filters, sortBy, newPage)
@@ -142,7 +142,7 @@ export default function AuthorsPage() {
                   <SelectValue placeholder="Any field" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any field</SelectItem>
+                  <SelectItem value="any">Any field</SelectItem>
                   <SelectItem value="C41008148">Computer Science</SelectItem>
                   <SelectItem value="C185592680">Biology</SelectItem>
                   <SelectItem value="C15744967">Medicine</SelectItem>
