@@ -41,6 +41,14 @@
 4. `app/openalex/sources/[id]/error.tsx` - Error boundary for source detail page
 5. `app/openalex/sources/[id]/not-found.tsx` - Not found page for invalid source IDs
 
+### Day 3
+
+#### Tasks Completed:
+- [x] Fixed issue with source IDs in SourceCard component to handle '@https:/openalex.org/' prefixes
+- [x] Modified the getSources function to clean up IDs before returning results
+- [x] Updated the getSource function to handle IDs with prefixes
+- [x] Ensured the source detail page properly handles IDs with prefixes
+
 ## Week 1 Summary
 Successfully implemented the Sources entity according to the implementation plan. The Sources implementation includes:
 
@@ -49,12 +57,49 @@ Successfully implemented the Sources entity according to the implementation plan
 3. **Error Handling**: Added error boundaries and not-found pages for a better user experience
 4. **Pagination**: Implemented client-side pagination using server fetched data
 5. **Filtering & Search**: Added search and filter capabilities for finding sources
+6. **Bug Fixes**: Addressed URL and ID format issues to ensure consistent navigation
 
-## Up Next (Week 2)
-1. Implement Topics entity according to the implementation plan
-2. Enhance Sources implementation with ECharts visualizations for trends
-3. Add more robust client-side validation for forms
-4. Improve loading states with skeleton loaders
+## Week 2: Topics Implementation
+
+### Day 1
+
+#### Tasks Completed:
+- [x] Set up directory structure for Topics implementation
+- [x] Create base components for Topics entity
+- [x] Implement API utility functions for fetching Topics data
+- [x] Create topics search page with basic functionality
+- [x] Create basic topic detail page
+- [x] Add error handling with error boundaries
+- [x] Add not-found page for invalid topic IDs
+
+#### Completed Components:
+1. `app/openalex/topics/page.tsx` - Main search page with listings and categories
+2. `app/openalex/topics/[id]/page.tsx` - Detail page with topic information and tabs
+3. `app/openalex/topics/[id]/loading.tsx` - Loading state
+4. `app/openalex/topics/components/TopicCard.tsx` - Card component for topic search results
+5. `app/openalex/topics/components/TopicDetail.tsx` - Component for displaying topic details
+6. `app/lib/openalex/topics.ts` - API utility functions
+7. `app/openalex/topics/error.tsx` - Error boundary for topics list page
+8. `app/openalex/topics/[id]/error.tsx` - Error boundary for topic detail page
+9. `app/openalex/topics/[id]/not-found.tsx` - Not found page for invalid topic IDs
+
+### Day 2
+
+#### Tasks Completed:
+- [x] Fixed implementation to use topics endpoint instead of deprecated concepts endpoint
+- [x] Updated all API calls to use correct topic IDs with 'T' prefix instead of concept IDs
+- [x] Corrected work and author filtering to use topics.id instead of concepts.id
+- [x] Implemented TopicSearchForm component for client-side filtering
+- [x] Created TopicFilters component for sidebar filtering
+- [x] Implemented TopicTrendChart component for visualizing trends
+
+#### Updated Components:
+1. `app/lib/openalex/topics.ts` - Updated to use topics endpoint and correct ID prefixes
+2. `app/openalex/topics/page.tsx` - Fixed featured topic IDs and API references
+3. `app/openalex/topics/[id]/page.tsx` - Corrected filtering parameters for works and authors
+4. `app/openalex/topics/components/TopicSearchForm.tsx` - Added search form for topics
+5. `app/openalex/topics/components/TopicFilters.tsx` - Added sidebar filtering component
+6. `app/openalex/topics/components/TopicTrendChart.tsx` - Added visualization for publication trends
 
 ### Current Focus
-Completed the Sources entity implementation with real data from the OpenAlex API, server components, error handling, and pagination. The implementation follows modern Next.js patterns, using a combination of server and client components for optimal performance and user experience. 
+Completed the Topics entity implementation, including API integration, search functionality, filtering, and data visualization. The Topics implementation includes proper error handling, filtering options by domain and field, and a trend chart showing publications and citations over time. 

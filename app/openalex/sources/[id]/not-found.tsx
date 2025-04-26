@@ -7,7 +7,7 @@ export default function SourceNotFound() {
       <div className="max-w-md space-y-6 text-center">
         <h1 className="text-3xl font-bold">Source Not Found</h1>
         <p className="text-gray-600">
-          We couldn't find the source you're looking for. It may have been removed, or you might have followed a broken link.
+          We couldn&apos;t find the source you&apos;re looking for. It may have been removed, or you might have followed a broken link.
         </p>
         <Link
           href="/openalex/sources"
