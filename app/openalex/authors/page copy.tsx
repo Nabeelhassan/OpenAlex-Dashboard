@@ -22,8 +22,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Pagination } from '@/components/ui/pagination';
-import AffiliationsSection from '../components/AffiliationsSection';
-import ResearchAreasSection from '../components/ResearchAreasSection';
 
 // Include a simple bar chart for citations by year
 function CitationsByYearChart({ citationsByYear }: { citationsByYear: Record<string, number> }) {
@@ -415,14 +413,99 @@ export default function AuthorPage() {
           </div>
         </div>
 
-        {/* Affiliations and Research Areas side by side on desktop, stacked on mobile */}
-        <div className="flex flex-col md:flex-row gap-6 mb-8">
-          <div className="w-full md:w-1/2">
-            <AffiliationsSection affiliations={affiliations} />
+        {/* Affiliations Section */}
+        {affiliations.length > 0 && (
+          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-8">
+            <h2 className={`text-xl font-semibold mb-4 ${lusitana.className}`}>
+              Affiliations
+            </h2>
+
+            <div className="space-y-4">
+              {affiliations.map((affiliation: any, index: number) => (
+                <div
+                  key={index}
+                  className="flex items-start p-3 border border-gray-100 rounded-lg hover:bg-gray-50"
+                >
+                  <BuildingLibraryIcon className="h-6 w-6 text-blue-600 mr-3 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-medium">
+                      {affiliation.institution?.display_name || 'Unknown Institution'}
+                    </h3>
+                    <div className="text-sm text-gray-600 mt-1">
+                      {affiliation.institution?.country_code && (
+                        <div className="flex items-center">
+                          <MapPinIcon className="h-4 w-4 mr-1" />
+                          {affiliation.institution.country_code}
+                        </div>
+                      )}
+                      {affiliation.years && (
+                        <div className="flex items-center mt-1">
+                          <CalendarIcon className="h-4 w-4 mr-1" />
+                          {Array.isArray(affiliation.years) ? affiliation.years.join(', ') : affiliation.years}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="w-full md:w-1/2">
-            <ResearchAreasSection concepts={author.x_concepts || []} />
-          </div>
+        )}
+
+        {/* Research Areas Section */}
+        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-8">
+          <h2 className={`text-xl font-semibold mb-4 ${lusitana.className}`}>
+            Research Areas
+          </h2>
+
+          {topConcepts.length > 0 ? (
+            <div className="space-y-4">
+              <div className="flex flex-wrap gap-2">
+                {topConcepts.map((concept: any) => (
+                  <div
+                    key={concept.id}
+                    className="group relative bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm hover:bg-blue-100 transition-colors"
+                  >
+                    <Link href={`/openalex/concepts/${concept.id.replace('https://openalex.org/', '')}`}>
+                      {concept.display_name}
+                      <span className="ml-1 text-blue-500 text-xs">
+                        ({Math.round(concept.score * 100)}%)
+                      </span>
+                    </Link>
+                    <div className="absolute hidden group-hover:block top-full left-1/2 transform -translate-x-1/2 mt-2 p-2 bg-white rounded-md shadow-lg z-10 text-xs text-gray-600 w-48">
+                      <strong>Level {concept.level || 0} concept</strong><br />
+                      {concept.works_count?.toLocaleString() || 0} works<br />
+                      {concept.cited_by_count?.toLocaleString() || 0} citations
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6">
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Top Concepts Distribution</h3>
+                <div className="h-8 bg-gray-100 rounded-full overflow-hidden flex">
+                  {topConcepts.map((concept: any, index: number) => (
+                    <div
+                      key={concept.id}
+                      title={`${concept.display_name}: ${Math.round(concept.score * 100)}%`}
+                      className="h-full transition-all hover:opacity-80"
+                      style={{
+                        width: `${concept.score * 100}%`,
+                        backgroundColor: `hsl(${210 + index * 30}, 70%, 60%)`,
+                        minWidth: '1px'
+                      }}
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>{topConcepts[0]?.display_name}</span>
+                  <span>{topConcepts[topConcepts.length - 1]?.display_name}</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-600">No research areas available</p>
+          )}
         </div>
 
         {/* Publication Venues */}
