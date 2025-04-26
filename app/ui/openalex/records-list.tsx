@@ -9,7 +9,7 @@ import AuthorsSection from './authors-section';
 import CitationsSection from './citations-section';
 import IdentifiersSection from './identifiers-section';
 import MetaDataSection from './metadata-section';
-import Pagination from '../invoices/pagination';
+// import Pagination from '../invoices/pagination';
 import TitleSection from './title-section';
 import { Meta } from '@/app/lib/definitions';
 import RecordCard from './record-card';
@@ -76,9 +76,9 @@ export default async function RecordsList({
           </div>
         </div>
       </div>
-      <div className="mt-5 flex w-full justify-center">
+      {/* <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
-      </div>
+      </div> */}
     </>
   );
 }
