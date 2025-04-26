@@ -18,7 +18,7 @@ export default function Page() {
             OpenAlex Explorer
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
-            Discover and analyze the world's research through the OpenAlex dataset
+            Discover and analyze the world&apos;s research through the OpenAlex dataset
           </p>
           
           {/* Search Bar */}
@@ -147,7 +147,7 @@ export default function Page() {
             Start Exploring Academic Research Today
           </h2>
           <p className="text-xl mb-8 text-blue-100 max-w-3xl mx-auto">
-            Dive into the world's research with our powerful OpenAlex Explorer tools.
+            Dive into the world&apos;s research with our powerful OpenAlex Explorer tools.
           </p>
           <Button asChild size="lg" className="bg-white text-blue-900 hover:bg-blue-50">
             <Link href="/dashboard">

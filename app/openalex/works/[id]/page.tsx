@@ -89,7 +89,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
             {error || 'Research work not found'}
           </h2>
           <p className="text-gray-600 mb-6">
-            We couldn't find the research work you're looking for.
+            We couldn&apos;t find the research work you&apos;re looking for.
           </p>
           <Link
             href="/openalex/works"
