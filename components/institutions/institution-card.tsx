@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { getOptimalImageUrl } from "@/app/lib/image-utils";
 import { BuildingLibraryIcon } from "@heroicons/react/24/outline"
 import { Institution } from "@/types"
 
@@ -16,14 +17,16 @@ interface InstitutionCardProps {
 }
 
 export function InstitutionCard({ institution }: InstitutionCardProps) {
+  const imageUrl = getOptimalImageUrl(institution.image_url, 
+    'https://static.openalex.org/publisher-images/publisher-placeholder.png');
   return (
     <Link href={`/openalex/institutions/${institution.id}`}>
       <Card className="h-full overflow-hidden transition-all hover:shadow-md">
         <CardHeader className="pb-2">
-          {institution.image_url ? (
+          {imageUrl ? (
             <div className="relative h-16 w-16 overflow-hidden rounded-md">
               <Image
-                src={institution.image_url}
+                src={imageUrl}
                 alt={institution.display_name}
                 fill
                 className="object-cover"

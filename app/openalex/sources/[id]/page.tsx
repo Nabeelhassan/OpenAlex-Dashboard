@@ -30,7 +30,7 @@ export default async function SourceDetail({ params }: { params: { id: string } 
     publication_year: work.publication_year,
     cited_by_count: work.cited_by_count,
     open_access: work.open_access?.is_oa || false,
-    authors: work.authorships?.map(authorship => ({
+    authors: work.authorships?.map((authorship: any) => ({
       id: authorship.author.id,
       display_name: authorship.author.display_name,
       orcid: authorship.author.orcid

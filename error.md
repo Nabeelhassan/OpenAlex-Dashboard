@@ -1,0 +1,3 @@
+# OpenAlex Dashboard Errors
+
+## Errors
