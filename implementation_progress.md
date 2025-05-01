@@ -169,19 +169,37 @@ Successfully implemented the Sources entity according to the implementation plan
 - **Performance**: Server-side rendering for SEO
 - **Error Handling**: Covered all edge cases
 
----
+## Week 4: Funders Implementation (Current)
 
-## Week 4: Funders Implementation (Next)
+### Completed Tasks:
+- [x] Created directory structure for Funders implementation:
+  - `app/openalex/funders/page.tsx` (Search page)
+  - `app/openalex/funders/[id]/page.tsx` (Detail page)
+  - `app/openalex/funders/components/` (Reusable components)
+- [x] Implemented core components:
+  - `FunderFilters.tsx` (Country/type filters)
+  - `FunderCard.tsx` (Search result cards)
+  - `FundersGrid.tsx` (Grid layout)
+  - `FunderMetrics.tsx` (Metrics visualization)
+  - `FunderTopicsChart.tsx` (Research topics chart)
+  - `FundedWorksList.tsx` (Funded works list)
+- [x] Added error and loading states:
+  - `error.tsx` (Search/detail pages)
+  - `loading.tsx` (Loading states)
 
-### Planned Tasks:
-1. Directory setup (`app/openalex/funders/`)
-2. Search page with:
-   - Region/type filters
-   - Funding amount sorting
-3. Detail page with:
-   - Funder profile
-   - Funded works list
-   - Metrics trends
+### Next Steps:
+1. **API Integration**:
+   - Create `lib/openalex/funders.ts` for data fetching.
+   - Implement `getFunders` (search) and `getFunder` (detail) utilities.
+2. **Search Page**:
+   - Integrate API calls into `page.tsx`.
+   - Add pagination and sorting.
+3. **Detail Page**:
+   - Populate `[id]/page.tsx` with real data.
+   - Connect visualization components (`FunderMetrics`, `FunderTopicsChart`).
+4. **Testing**:
+   - Validate filter functionality.
+   - Test error handling and edge cases.
 
 ### Current Focus:
 Review [Funders API documentation](https://docs.openalex.org/api-entities/funders). 
