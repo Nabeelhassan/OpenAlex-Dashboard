@@ -135,7 +135,7 @@ export async function getPublisherWorks(publisherId: string, limit = 5) {
   
   try {
     const response = await fetch(
-      `https://api.openalex.org/works?filter=primary_location.source.publisher.id:${cleanId}&sort=cited_by_count:desc&per-page=${limit}`,
+      `https://api.openalex.org/works?filter=locations.source.publisher_lineage:${cleanId}&sort=cited_by_count:desc&per-page=${limit}`,
       { next: { revalidate: 3600 } }
     );
     
@@ -157,7 +157,7 @@ export async function getPublisherSources(publisherId: string, limit = 5) {
   
   try {
     const response = await fetch(
-      `https://api.openalex.org/sources?filter=publisher.id:${cleanId}&sort=works_count:desc&per-page=${limit}`,
+      `https://api.openalex.org/sources?filter=host_organization_lineage:${cleanId}&sort=works_count:desc&per-page=${limit}`,
       { next: { revalidate: 3600 } }
     );
     
@@ -263,4 +263,13 @@ export async function searchPublishers(
     console.error("Error searching publishers:", error);
     throw error;
   }
+}
+
+export async function getPublisherTopics(publisherId: string) {
+  const response = await fetch(
+    `https://api.openalex.org/publishers/${publisherId}?select=x_concepts`
+  );
+  if (!response.ok) throw new Error('Failed to fetch publisher topics');
+  const data = await response.json();
+  return data.x_concepts || [];
 } 

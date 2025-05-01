@@ -101,5 +101,87 @@ Successfully implemented the Sources entity according to the implementation plan
 5. `app/openalex/topics/components/TopicFilters.tsx` - Added sidebar filtering component
 6. `app/openalex/topics/components/TopicTrendChart.tsx` - Added visualization for publication trends
 
-### Current Focus
-Completed the Topics entity implementation, including API integration, search functionality, filtering, and data visualization. The Topics implementation includes proper error handling, filtering options by domain and field, and a trend chart showing publications and citations over time. 
+## Week 3: Publishers Implementation
+
+### Day 1
+
+#### Tasks Completed:
+- [x] Created directory structure:
+  - `app/openalex/publishers/page.tsx` (Search page)
+  - `app/openalex/publishers/[id]/page.tsx` (Detail page)
+  - `app/openalex/publishers/components/` (Reusable components)
+- [x] Implemented search page:
+  - Search functionality with query params
+  - Filters (country, publisher type)
+  - Pagination (12 items per page)
+  - Sorting (works_count, cited_by_count)
+- [x] Created base components:
+  - `PublisherCard` (Search result cards)
+  - `PublishersGrid` (Grid layout)
+
+#### Completed Files:
+1. `app/openalex/publishers/page.tsx`
+2. `app/openalex/publishers/components/PublisherCard.tsx`
+3. `app/openalex/publishers/components/PublishersGrid.tsx`
+
+### Day 2
+
+#### Tasks Completed:
+- [x] Implemented detail page:
+  - Publisher profile header with image
+  - Key metrics (works, citations, h-index)
+  - Top works list (5 items)
+  - Top sources list (5 items)
+- [x] Added API utilities:
+  - `getPublisher` (single publisher)
+  - `getPublisherWorks` (publisher's works)
+  - `getPublisherSources` (publisher's sources)
+
+#### Completed Files:
+1. `app/openalex/publishers/[id]/page.tsx`
+2. `app/lib/openalex/publishers.ts` (API functions)
+
+### Day 3
+
+#### Tasks Completed:
+- [x] Added advanced components:
+  - `PublisherMetrics` (Line chart for yearly trends)
+  - `PublisherSourcesList` (Table with pagination)
+  - `PublisherTopicsChart` (Pie chart for research areas)
+- [x] Integrated ECharts for visualizations
+- [x] Added error handling:
+  - `error.tsx` (for both search and detail pages)
+  - `not-found.tsx` (invalid publisher IDs)
+
+#### Completed Files:
+1. `app/openalex/publishers/components/PublisherMetrics.tsx`
+2. `app/openalex/publishers/components/PublisherSourcesList.tsx`
+3. `app/openalex/publishers/components/PublisherTopicsChart.tsx`
+4. `app/openalex/publishers/error.tsx`
+5. `app/openalex/publishers/[id]/error.tsx`
+
+### Week 3 Summary
+- **Search**: Full-text search with filters, sorting, and pagination
+- **Detail Page**: Complete publisher profile with:
+  - Metrics visualization
+  - Top works/sources lists
+  - Research area distribution
+- **Performance**: Server-side rendering for SEO
+- **Error Handling**: Covered all edge cases
+
+---
+
+## Week 4: Funders Implementation (Next)
+
+### Planned Tasks:
+1. Directory setup (`app/openalex/funders/`)
+2. Search page with:
+   - Region/type filters
+   - Funding amount sorting
+3. Detail page with:
+   - Funder profile
+   - Funded works list
+   - Metrics trends
+
+### Current Focus:
+Review [Funders API documentation](https://docs.openalex.org/api-entities/funders). 
