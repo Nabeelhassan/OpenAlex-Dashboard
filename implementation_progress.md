@@ -169,7 +169,7 @@ Successfully implemented the Sources entity according to the implementation plan
 - **Performance**: Server-side rendering for SEO
 - **Error Handling**: Covered all edge cases
 
-## Week 4: Funders Implementation (Current)
+## Week 4: Funders Implementation (Completed)
 
 ### Completed Tasks:
 - [x] Created directory structure for Funders implementation:
@@ -186,20 +186,65 @@ Successfully implemented the Sources entity according to the implementation plan
 - [x] Added error and loading states:
   - `error.tsx` (Search/detail pages)
   - `loading.tsx` (Loading states)
+- [x] Implemented funding trends visualization (`FundingTrendChart.tsx`)
+- [x] Added top funded institutions list (`FundedInstitutionsList.tsx`)
+- [x] Completed API integration for all funder endpoints
+- [x] Finalized UI polish and responsive design
+
+## Week 5: Geo Implementation (Upcoming)
+
+### Tasks:
+1. **Directory Structure**  
+   - [ ] Create `app/openalex/geo/` with subfolders:  
+     - `components/` (Reusable components)  
+     - `[id]/` (Detail page)  
+   - [ ] Add `page.tsx` (Search/explore page)  
+
+2. **World Map Visualization**  
+   - [ ] Implement interactive world map using ECharts or similar library.  
+   - [ ] Fetch and display regional research metrics.  
+
+3. **Region Selection Functionality**  
+   - [ ] Allow users to select regions (countries, cities) for detailed analysis.  
+   - [ ] Add filters for research topics and time periods.  
+
+4. **Research Output Metrics**  
+   - [ ] Display key metrics (publications, citations) by geography.  
+   - [ ] Implement visualizations (bar charts, pie charts) for regional comparisons.  
+
+5. **API Integration**  
+   - [ ] Add utility functions in `app/lib/openalex/geo.ts` for fetching:  
+     - Regional data  
+     - Collaboration networks  
+     - Research trends  
+
+6. **UI Components**  
+   - [ ] Create reusable components:  
+     - `WorldMap.tsx`  
+     - `RegionMetrics.tsx`  
+     - `GeoFilters.tsx`  
+
+7. **Error Handling**  
+   - [ ] Add `error.tsx` and `not-found.tsx` for robustness.  
+
+---
 
 ### Next Steps:
-1. **API Integration**:
-   - Create `lib/openalex/funders.ts` for data fetching.
-   - Implement `getFunders` (search) and `getFunder` (detail) utilities.
-2. **Search Page**:
-   - Integrate API calls into `page.tsx`.
-   - Add pagination and sorting.
-3. **Detail Page**:
-   - Populate `[id]/page.tsx` with real data.
-   - Connect visualization components (`FunderMetrics`, `FunderTopicsChart`).
-4. **Testing**:
-   - Validate filter functionality.
-   - Test error handling and edge cases.
+- Would you like me to draft the initial files (e.g., `page.tsx`, `WorldMap.tsx`) for Week 5?  
+- Should we prioritize any specific task (e.g., world map implementation)?  
+
+Let me know how you'd like to proceed!
+
+## Week 6: Institutions Implementation (Upcoming)
+- [ ] Create directory structure
+- [ ] Implement institution search functionality
+- [ ] Develop institution detail pages
+- [ ] Create collaboration network visualization
+
+## Additional Implementations (Beyond Original Plan)
+- [x] Authors - Fully implemented
+- [x] Works - Fully implemented
+- [x] Overview - Basic implementation
 
 ### Current Focus:
 Review [Funders API documentation](https://docs.openalex.org/api-entities/funders). 

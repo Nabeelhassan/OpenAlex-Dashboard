@@ -54,3 +54,13 @@ export async function getFunderWorks(
   const data = await res.json();
   return data.results || [];
 }
+
+export async function getFunderTrends(id: string): Promise<FundingTrend[]> {
+  const res = await fetch(`https://api.openalex.org/funders/${id}/trends`);
+  return res.json();
+}
+
+export async function getFunderInstitutions(id: string): Promise<Institution[]> {
+  const res = await fetch(`https://api.openalex.org/funders/${id}/institutions`);
+  return res.json();
+}
