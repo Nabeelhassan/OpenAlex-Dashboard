@@ -142,7 +142,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
           <AuthorsList authorships={work.authorships || []} />
 
           {/* Abstract Section */}
-          <AbstractSection abstract={abstractText} />
+          <AbstractSection abstract_inverted_index={work.abstract_inverted_index} />
 
           {/* Tabs for different sections */}
           <Tabs defaultValue="concepts" className="w-full">

@@ -131,3 +131,23 @@ export const formatErrorResponse = (message: string) => {
     results: []
   };
 }
+
+/**
+ * Reconstructs the abstract from OpenAlex's abstract_inverted_index.
+ *
+ * @param invertedIndex - A dictionary where keys are words and values are arrays of positions.
+ * @returns The reconstructed abstract as a single string.
+ */
+export function reconstructAbstract(invertedIndex: Record<string, number[]> | null | undefined): string {
+  if (!invertedIndex) return "Abstract not available in a readable format. Please visit the original publication for the complete abstract.";
+
+  const positionMap: string[] = [];
+
+  for (const [word, positions] of Object.entries(invertedIndex)) {
+    for (const pos of positions) {
+      positionMap[pos] = word;
+    }
+  }
+
+  return positionMap.join(" ");
+}
