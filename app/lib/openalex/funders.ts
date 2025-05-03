@@ -1,5 +1,12 @@
 import { Work } from '../work'; // Ensure this interface exists (defined below)
 
+export interface Funder {
+  id: string,
+  display_name: string,
+  country_code: string,
+  works_count: number
+}
+
 interface GetFundersParams {
   query?: string;
   filters?: {
@@ -55,12 +62,12 @@ export async function getFunderWorks(
   return data.results || [];
 }
 
-export async function getFunderTrends(id: string): Promise<FundingTrend[]> {
+export async function getFunderTrends(id: string): Promise<any[]> {
   const res = await fetch(`https://api.openalex.org/funders/${id}/trends`);
   return res.json();
 }
 
-export async function getFunderInstitutions(id: string): Promise<Institution[]> {
+export async function getFunderInstitutions(id: string): Promise<any[]> {
   const res = await fetch(`https://api.openalex.org/funders/${id}/institutions`);
   return res.json();
 }

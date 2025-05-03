@@ -1,4 +1,4 @@
-export function FundedInstitutionsList({ institutions }: { institutions: Institution[] }) {
+export function FundedInstitutionsList({ institutions }: { institutions: any[] }) {
   return (
     <div>
       <h3>Top Funded Institutions</h3>
