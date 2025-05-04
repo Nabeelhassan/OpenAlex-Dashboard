@@ -1,9 +1,12 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
 import { Calendar, ExternalLink, FileText } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+
 import { lusitana } from '@/app/ui/fonts';
+
+import { Badge } from '@/components/ui/badge';
 
 interface WorkHeaderProps {
   id: string;
@@ -37,24 +40,34 @@ export function WorkHeader({
       <div className="flex flex-wrap gap-2 items-center">
         <Badge className="bg-blue-600 hover:bg-blue-700">{type}</Badge>
         {is_oa && (
-          <Badge variant="outline" className="border-green-600 text-green-600">
-            Open Access
-          </Badge>
+          <>
+            <Badge variant="outline" className="border-green-600 text-green-600">
+              Open Access
+            </Badge>
+
+            <Image
+              src="/open-access.svg"
+              width={96}
+              height={48}
+              className="md:block"
+              alt="open access icon"
+            />
+          </>
         )}
       </div>
-      
+
       <h1 className={`text-3xl md:text-4xl font-bold text-gray-900 ${lusitana.className}`}>
         {display_name || title}
       </h1>
-      
+
       <div className="flex flex-wrap gap-4 text-sm text-gray-600">
         <div className="flex items-center gap-1">
           <Calendar className="h-4 w-4" />
           <span>{formattedDate}</span>
         </div>
-        
+
         {doi && (
-          <Link 
+          <Link
             href={doi.startsWith('https://') ? doi : `https://doi.org/${doi.replace('https://doi.org/', '')}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -64,8 +77,8 @@ export function WorkHeader({
             <span>DOI: {doi.replace('https://doi.org/', '')}</span>
           </Link>
         )}
-        
-        <Link 
+
+        <Link
           href={`https://openalex.org/${id.replace('https://openalex.org/', '')}`}
           target="_blank"
           rel="noopener noreferrer"
