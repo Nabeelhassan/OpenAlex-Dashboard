@@ -1,16 +1,26 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Suspense } from 'react';
+import { useEffect, useState } from 'react'
+import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
+import { OA_STATUS_COLOURS, OA_STATUS_TOOLTIPS, capitalize } from '@/app/lib/utils';
+
 import { WorkHeader } from '../components/WorkHeader';
 import { AuthorsList } from '../components/AuthorsList';
 import { ConceptsList } from '../components/ConceptsList';
 import { CitationMetrics } from '../components/CitationMetrics';
 import { RelatedWorks } from '../components/RelatedWorks';
 import { AbstractSection } from '../components/AbstractSection';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Badge } from '@/components/ui/badge';
+
 
 async function fetchWorkData(id: string) {
   try {
@@ -105,12 +115,6 @@ export default function WorkPage({ params }: { params: { id: string } }) {
 
   const is_oa = work.open_access?.is_oa || false;
 
-  // Extract abstract text - if the abstract is an inverted index, just use a placeholder
-  // Most OpenAlex works don't have properly formatted abstracts directly accessible
-  const abstractText = typeof work.abstract === 'string'
-    ? work.abstract
-    : "Abstract not available in a readable format. Please visit the original publication for the complete abstract.";
-
   return (
     <main className="flex-1 p-6 md:p-10">
       {/* Back Link */}
@@ -136,8 +140,8 @@ export default function WorkPage({ params }: { params: { id: string } }) {
         is_oa={is_oa}
       />
 
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="lg:col-span-4 space-y-8">
           {/* Authors Section */}
           <AuthorsList authorships={work.authorships || []} />
 
@@ -185,7 +189,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
               {work.primary_location?.source?.issn && (
                 <div>
                   <dt className="text-sm text-gray-500">ISSN</dt>
-                  <dd>{Array.isArray(work.primary_location.source.issn) ?
+                  <dd className="text-sm font-medium">{Array.isArray(work.primary_location.source.issn) ?
                     work.primary_location.source.issn.join(', ') :
                     work.primary_location.source.issn}
                   </dd>
@@ -195,14 +199,14 @@ export default function WorkPage({ params }: { params: { id: string } }) {
               {work.publication_year && (
                 <div>
                   <dt className="text-sm text-gray-500">Year</dt>
-                  <dd>{work.publication_year}</dd>
+                  <dd className="font-medium">{work.publication_year}</dd>
                 </div>
               )}
 
               {work.type && (
                 <div>
                   <dt className="text-sm text-gray-500">Type</dt>
-                  <dd className="capitalize">{work.type}</dd>
+                  <dd className="capitalize font-medium">{work.type}</dd>
                 </div>
               )}
 
@@ -214,9 +218,27 @@ export default function WorkPage({ params }: { params: { id: string } }) {
                     {is_oa ? 'Yes' : 'No'}
                   </span>
                   {work.open_access?.oa_status && (
-                    <span className="text-xs ml-2 text-gray-500">
-                      ({work.open_access.oa_status})
-                    </span>
+                    // <span className="text-xs ml-2 text-gray-500">
+                    //   ({work.open_access.oa_status})
+                    // </span>
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        {' '}
+                        <Badge
+                          className="cursor-pointer text-black"
+                          style={{
+                            backgroundColor: `#${OA_STATUS_COLOURS[work.open_access.oa_status]}`,
+                          }}
+                        >
+                          {capitalize(work.open_access?.oa_status)}
+                        </Badge>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-80">
+                        <p className="text-sm text-gray-500">
+                          {OA_STATUS_TOOLTIPS[work.open_access.oa_status]}
+                        </p>
+                      </HoverCardContent>
+                    </HoverCard>
                   )}
                 </dd>
               </div>
