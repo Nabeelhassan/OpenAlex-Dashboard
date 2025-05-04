@@ -237,3 +237,19 @@ app/openalex/[entity-name]/
 
 ## Conclusion
 This implementation plan provides a structured approach to developing the remaining OpenAlex entities for the dashboard. By following this plan, we can ensure consistent implementation across all entities while leveraging the best practices of Next.js development. 
+
+
+## New Tasks
+- Add/show references of a work.
+- Show all identifiers that are available.
+- Make a general works card that can be used in every place.
+   - Current places
+      - Authors page
+      - Works -> Related Works Tab
+      - 
+
+- Make page for concepts/topics
+- Link Institution, concepts to there pages
+
+- Improve UI for funders search/details page.
+- Add Bread Crumbs to current design
