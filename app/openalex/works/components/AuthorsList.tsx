@@ -107,7 +107,7 @@ export function AuthorsList({ authorships }: AuthorsListProps) {
                   href={`/openalex/authors/${authorship.author.id.replace('https://openalex.org/', '')}`}
                   className="text-xs text-blue-600 hover:underline flex items-center"
                 >
-                  <span>View author details</span>
+                  <span>Details</span>
                   <ExternalLink className="h-3 w-3 ml-1" />
                 </Link>
               </div>
