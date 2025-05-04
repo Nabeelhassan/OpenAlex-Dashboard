@@ -116,7 +116,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
   const is_oa = work.open_access?.is_oa || false;
 
   return (
-    <main className="flex-1 p-6 md:p-10">
+    <main className="flex-1">
       {/* Back Link */}
       <div className="mb-6">
         <Link
@@ -128,20 +128,24 @@ export default function WorkPage({ params }: { params: { id: string } }) {
         </Link>
       </div>
 
-      {/* Work Header */}
-      <WorkHeader
-        id={work.id}
-        title={work.title || ''}
-        display_name={work.display_name || ''}
-        publication_year={work.publication_year}
-        publication_date={work.publication_date}
-        doi={work.doi}
-        type={work.type}
-        is_oa={is_oa}
-      />
+
 
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <div className="lg:col-span-4 space-y-8">
+        <div className="lg:col-span-5 space-y-8">
+          {/* Work Header */}
+          <WorkHeader
+            id={work.id}
+            title={work.title || ''}
+            display_name={work.display_name || ''}
+            publication_year={work.publication_year}
+            publication_date={work.publication_date}
+            doi={work.doi}
+            type={work.type}
+            open_access={work.open_access}
+            biblio={work.biblio}
+            primary_location={work.primary_location}
+          />
+
           {/* Authors Section */}
           <AuthorsList authorships={work.authorships || []} />
 
@@ -176,7 +180,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
 
         <div className="space-y-6">
           {/* Publication Details */}
-          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+          {/* <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Publication Details</h2>
             <dl className="space-y-4">
               {work.primary_location?.source?.display_name && (
@@ -259,10 +263,10 @@ export default function WorkPage({ params }: { params: { id: string } }) {
                 </div>
               )}
             </dl>
-          </div>
+          </div> */}
 
           {/* Citation Links */}
-          {work.doi && (
+          {/* {work.doi && (
             <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
               <h2 className="text-lg font-semibold mb-4">External Links</h2>
               <ul className="space-y-2">
@@ -298,7 +302,7 @@ export default function WorkPage({ params }: { params: { id: string } }) {
                 </li>
               </ul>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </main>
