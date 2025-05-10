@@ -122,3 +122,32 @@ export const OA_STATUS_TOOLTIPS: { [key: string]: string } = {
   'green': 'Green Open Access allows authors to deposit a version of their manuscript in a repository, such as an institutional repository or a subject-specific archive. This provides free access to the public, usually after an embargo period set by the publisher.',
   'hybrid': 'Hybrid Open Access combines elements of traditional subscription-based publishing with Open Access. In this model, authors can choose to make their individual articles freely accessible by paying an additional fee, while the rest of the journal content remains behind a paywall.',
 }
+
+export const formatErrorResponse = (message: string) => {
+  return {
+    error: true,
+    message,
+    meta: { count: 0 },
+    results: []
+  };
+}
+
+/**
+ * Reconstructs the abstract from OpenAlex's abstract_inverted_index.
+ *
+ * @param invertedIndex - A dictionary where keys are words and values are arrays of positions.
+ * @returns The reconstructed abstract as a single string.
+ */
+export function reconstructAbstract(invertedIndex: Record<string, number[]> | null | undefined): string {
+  if (!invertedIndex) return "Abstract not available in a readable format. Please visit the original publication for the complete abstract.";
+
+  const positionMap: string[] = [];
+
+  for (const [word, positions] of Object.entries(invertedIndex)) {
+    for (const pos of positions) {
+      positionMap[pos] = word;
+    }
+  }
+
+  return positionMap.join(" ");
+}
