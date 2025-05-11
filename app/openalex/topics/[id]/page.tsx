@@ -62,7 +62,7 @@ export default async function TopicDetailPage({ params }: { params: { id: string
   }));
   
   return (
-    <main className="flex-1 p-6 md:p-10">
+    <main className="flex-1">
       <Link
         href="/openalex/topics"
         className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 mb-6"
