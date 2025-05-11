@@ -48,7 +48,7 @@ export default async function SourcesPage({
   const featuredSources = await Promise.all(featuredSourcesPromises);
 
   return (
-    <main className="flex-1 p-6 md:p-10">
+    <main className="flex-1">
       <div className="flex items-center gap-2 mb-8">
         <DocumentTextIcon className="h-6 w-6 text-blue-600" />
         <h1 className={`text-2xl md:text-3xl font-bold text-gray-900 ${lusitana.className}`}>

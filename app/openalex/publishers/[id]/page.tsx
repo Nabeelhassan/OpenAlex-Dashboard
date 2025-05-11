@@ -52,7 +52,7 @@ export default async function PublisherPage({ params }: PublisherPageProps) {
     'https://static.openalex.org/publisher-images/publisher-placeholder.png');
   
   return (
-    <main className="flex-1 p-6 md:p-10">
+    <main className="flex-1">
       <BreadCrumbs
         items={[
           { label: 'Publishers', href: '/openalex/publishers' },
