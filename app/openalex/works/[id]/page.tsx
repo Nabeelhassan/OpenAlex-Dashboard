@@ -311,18 +311,12 @@ export default function WorkPage({ params }: { params: { id: string } }) {
 
 function WorkSkeleton() {
   return (
-    <div className="flex-1 p-6 md:p-10">
-      <div className="mb-6">
-        <div className="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
+    <div className="flex h-full w-full justify-center items-center">
+      <div className="relative">
+        <div className="w-12 h-12 rounded-full border-4 border-blue-200 animate-spin"></div>
+        <div className="w-12 h-12 rounded-full border-t-4 border-blue-600 animate-spin absolute top-0 left-0"></div>
       </div>
-
-      <div className="flex justify-center items-center py-20">
-        <div className="relative">
-          <div className="w-12 h-12 rounded-full border-4 border-blue-200 animate-spin"></div>
-          <div className="w-12 h-12 rounded-full border-t-4 border-blue-600 animate-spin absolute top-0 left-0"></div>
-        </div>
-        <div className="ml-4 text-lg text-gray-600">Loading research work...</div>
-      </div>
+      <div className="ml-4 text-lg text-gray-600">Loading research work...</div>
     </div>
   );
 }

@@ -712,7 +712,7 @@ export default function AuthorPage() {
 
 function AuthorDetailSkeleton() {
   return (
-    <main className="flex-1 p-6 md:p-10">
+    <main className="flex-1">
       <div className="mx-auto">
         <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-8 animate-pulse">
           <div className="flex flex-col md:flex-row gap-6">

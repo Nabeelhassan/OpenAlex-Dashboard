@@ -89,7 +89,7 @@ export default function AuthorsPage() {
 
   if (loading && currentPage === 1) {
     return (
-      <main className="flex-1 p-6 md:p-10">
+      <main className="flex-1">
         <div className="flex items-center gap-2 mb-8">
           <UserIcon className="h-6 w-6 text-blue-600" />
           <h1 className={`text-2xl md:text-3xl font-bold text-gray-900 ${lusitana.className}`}>
@@ -103,7 +103,7 @@ export default function AuthorsPage() {
   }
 
   return (
-    <main className="flex-1 p-6 md:p-10">
+    <main className="flex-1">
       <div className="flex items-center gap-2 mb-8">
         <UserIcon className="h-6 w-6 text-blue-600" />
         <h1 className={`text-2xl md:text-3xl font-bold text-gray-900 ${lusitana.className}`}>
