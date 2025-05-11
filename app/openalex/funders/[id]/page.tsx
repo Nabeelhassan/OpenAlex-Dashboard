@@ -1,9 +1,12 @@
-import { getFunder, getFunderWorks, getFunderTopics } from '@/app/lib/openalex/funders';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { Building, Globe, FileText } from 'lucide-react';
+
+import { getFunder, getFunderWorks, getFunderTopics } from '@/app/lib/openalex/funders';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { FunderMetrics } from '../components/FunderMetrics';
 import { FundedWorksList } from '../components/FundedWorksList';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Building, Globe, FileText } from 'lucide-react';
 
 interface FunderPageProps {
   params: { id: string };
@@ -73,9 +76,16 @@ export default async function FunderPage({ params }: FunderPageProps) {
       {/* Funded Works */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
-            Top Funded Works
+          <CardTitle className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Top Funded Works
+            </div>
+            <Button variant="outline" asChild>
+              <Link href={`/openalex/works?filter=grants.funder:${funder.id}`}>
+                View All Works
+              </Link>
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent>
