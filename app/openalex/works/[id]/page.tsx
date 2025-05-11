@@ -13,6 +13,7 @@ import { CitationMetrics } from '../components/CitationMetrics';
 import { RelatedWorks } from '../components/RelatedWorks';
 import { AbstractSection } from '../components/AbstractSection';
 
+import BreadCrumbs from '@/components/breadcrumbs';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   HoverCard,
@@ -117,20 +118,16 @@ export default function WorkPage({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex-1">
-      {/* Back Link */}
       <div className="mb-6">
-        <Link
-          href="/openalex/works"
-          className="flex items-center text-blue-600 hover:underline text-sm"
-        >
-          <ArrowLeftIcon className="h-4 w-4 mr-1" />
-          Back to Research Works
-        </Link>
+        <BreadCrumbs
+          items={[
+            { label: 'Research Works', href: '/openalex/works' },
+            { label: work.display_name, href: `/openalex/works/${params.id}` },
+          ]}
+        />
       </div>
 
-
-
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-5 space-y-8">
           {/* Work Header */}
           <WorkHeader

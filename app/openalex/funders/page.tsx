@@ -39,7 +39,7 @@ export default function FundersPage() {
   };
 
   return (
-    <div className="p-6 md:p-10">
+    <main className="flex-1">
       <h1 className="text-2xl font-bold mb-6">Funders</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -75,6 +75,6 @@ export default function FundersPage() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

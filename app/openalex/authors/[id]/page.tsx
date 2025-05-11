@@ -19,6 +19,8 @@ import {
   ArrowLeftIcon
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
+
+import BreadCrumbs from '@/components/breadcrumbs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -258,16 +260,16 @@ export default function AuthorPage() {
 
   return (
     <main className="flex-1">
-      {/* Back Link */}
+      {/* BreadCrumbs */}
       <div className="mb-6">
-        <Link
-          href="/openalex/authors"
-          className="flex items-center text-blue-600 hover:underline text-sm"
-        >
-          <ArrowLeftIcon className="h-4 w-4 mr-1" />
-          Back to Authors
-        </Link>
+        <BreadCrumbs
+          items={[
+            { label: 'Authors', href: '/openalex/authors' },
+            { label: author.display_name, href: `/openalex/authors/${params.id}` },
+          ]}
+        />
       </div>
+
       <div className="mx-auto">
         {/* Author Header */}
         <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-8">
